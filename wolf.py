@@ -13,11 +13,41 @@ def load_name():
 
 
 
+from memory import save_memory, load_memory
 def respond(message):
 	message = message.strip()
 	command = message.lower()
 
-	if command.startswith("my name is "):
+	if command.startswith("remember "):
+		fact = message[9:]
+
+		if "=" not in fact:
+			return "Try: remember favorite food = Sushi"
+
+		key, value = fact.split("=", 1)
+		key = key.strip().lower().replace(" ", "_")
+		value = value.strip()
+
+		if not key or not value:
+			return "I need both a memory name and a value."
+
+		memory = load_memory()
+		memory[key] = value
+		save_memory(memory)
+
+		return f"Got it! I'll remember {key}."
+
+	elif command.startswith("recall "):
+		key = command[7:].strip().replace(" ", "_")
+		memory = load_memory()
+
+		if key in memory:
+			return memory[key]
+		else:
+			return "I dont remember that yet."
+
+
+	elif command.startswith("my name is "):
 		name = message[len("my name is "):]
 		save_name(name)
 		return f"I'll remember that, {name}."
