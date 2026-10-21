@@ -1,0 +1,16 @@
+# Personal Memory
+memory.txt
+*.db
+*.sqlite3
+
+# Secrets
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Backup
+*_backup.py
