@@ -1,18 +1,3 @@
-def save_name(name):
-	with open("memory.txt", "w") as file:
-		file.write(name)
-
-def load_name():
-	try:
-		with open("memory.txt", "r") as file:
-			return file.read().strip()
-
-
-	except FileNotFoundError:
-		return None
-
-
-
 from memory import save_memory, load_memory
 def respond(message):
 	message = message.strip()
@@ -48,18 +33,26 @@ def respond(message):
 
 
 	elif command.startswith("my name is "):
-		name = message[len("my name is "):]
-		save_name(name)
+		name = message[len("my name is "):].strip()
+
+		if not name:
+			return "You forgot to tell me your name!"
+
+		memory = load_memory()
+		memory["name"] = name
+		save_memory(memory)
+
 		return f"I'll remember that, {name}."
 
 	elif command == "who am i":
-			name = load_name()
+		memory = load_memory()
+		name = memory.get("name")
 
-			if name:
-				return f"You're {name}!"
+		if name:
+			return f"You're {name}!"
 
-			else:
-				return "I dont know your name yet."
+		else:
+			return "I dont know your name yet."
 
 	elif command == "hello":
 		return "Oh. You're here. Hi!:"

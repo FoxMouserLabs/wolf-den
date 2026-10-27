@@ -3,6 +3,7 @@ memory.txt
 *.db
 *.sqlite3
 memory.json
+memory_v01_backup.txt
 
 # Secrets
 .env
