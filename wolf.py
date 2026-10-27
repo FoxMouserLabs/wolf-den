@@ -31,6 +31,54 @@ def respond(message):
 		else:
 			return "I dont remember that yet."
 
+	elif command.startswith("forget "):
+		key = command[7:].strip().replace(" ","_")
+		memory = load_memory()
+
+		if key in memory:
+			del memory[key]
+			save_memory(memory)
+			return f"Okay. I've forgotten {key}."
+
+		else:
+			return "I don't remmeber that."
+
+	elif command.startswith("update "):
+		fact = message[7:]
+
+		if "=" not in fact:
+			return "Try: update favorite game = Stardew Valley"
+
+		key, value = fact.split("=", 1)
+		key = key.strip().lower().replace(" ","_")
+		value = value.strip()
+
+		if not key or not value:
+			return "I need both a memory name and a value"
+
+		memory = load_memory()
+
+		if key in memory:
+			memory[key] = value
+			save_memory(memory)
+			return f"Updated {key}!"
+
+		else:
+			return f"I don't have a memory called {key}."
+
+	elif command == "memories":
+		memory = load_memory()
+
+		if not memory:
+			return "My brain is empty. Rude."
+
+		response = "Here's what i remember:\n"
+
+		for key, value in memory.items():
+			response += f"-{key}: {value}\n"
+
+		return response
+
 
 	elif command.startswith("my name is "):
 		name = message[len("my name is "):].strip()
@@ -71,7 +119,7 @@ def respond(message):
 
 
 def main():
-	print(" Wolf v0.2 - Remember Me")
+	print(" Wolf v0.3.2 - Memory Management")
 	print("Type 'exit' to close the program. \n")
 
 	while True:
