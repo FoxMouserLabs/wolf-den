@@ -119,7 +119,7 @@ def respond(message):
 
 
 def main():
-	print(" Wolf v0.3.2 - Memory Management")
+	print(" Wolf v0.3.3 - Testing and reliability")
 	print("Type 'exit' to close the program. \n")
 
 	while True:
